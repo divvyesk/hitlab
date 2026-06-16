@@ -1,0 +1,78 @@
+{
+  "model": "RandomForestClassifier (3-tier HitTier)",
+  "feature_config": "ml/feature_config.json",
+  "target_column": "HitTier",
+  "tier_labels": [
+    "SHORT",
+    "MODERATE",
+    "SUSTAINED"
+  ],
+  "tier_to_hit": {
+    "1": [
+      "SHORT",
+      "1\u20132 weeks"
+    ],
+    "2": [
+      "MODERATE",
+      "3\u20134 weeks"
+    ],
+    "3": [
+      "SUSTAINED",
+      "5+ weeks"
+    ]
+  },
+  "cv_folds": 5,
+  "random_state": 42,
+  "metrics": {
+    "accuracy": 0.5913,
+    "balanced_accuracy": 0.3542,
+    "macro_f1": 0.308
+  },
+  "confusion_matrix": {
+    "labels": [
+      "SHORT",
+      "MODERATE",
+      "SUSTAINED"
+    ],
+    "tier_ids": [
+      1,
+      2,
+      3
+    ],
+    "matrix": [
+      [
+        672,
+        12,
+        23
+      ],
+      [
+        246,
+        4,
+        14
+      ],
+      [
+        182,
+        4,
+        20
+      ]
+    ],
+    "description": "rows = actual, cols = predicted (out-of-fold predictions)"
+  },
+  "class_distribution": {
+    "SHORT": {
+      "tier_id": 1,
+      "count": 707,
+      "pct": 60.07
+    },
+    "MODERATE": {
+      "tier_id": 2,
+      "count": 264,
+      "pct": 22.43
+    },
+    "SUSTAINED": {
+      "tier_id": 3,
+      "count": 206,
+      "pct": 17.5
+    }
+  }
+}
