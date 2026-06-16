@@ -1,171 +1,26 @@
 @import "tailwindcss";
 
 :root {
-  --background: #121212;
-  --foreground: #ffffff;
-  --spotify-base: #121212;
-  --spotify-elevated: #181818;
-  --spotify-card: #282828;
-  --spotify-highlight: #333333;
-  --spotify-green: #1db954;
-  --spotify-green-hover: #1ed760;
-  --spotify-green-dark: #169c46;
-  --spotify-text-subdued: #b3b3b3;
-  --spotify-text-muted: #6a6a6a;
+  --background: #ffffff;
+  --foreground: #171717;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-spotify-base: var(--spotify-base);
-  --color-spotify-elevated: var(--spotify-elevated);
-  --color-spotify-card: var(--spotify-card);
-  --color-spotify-highlight: var(--spotify-highlight);
-  --color-spotify-green: var(--spotify-green);
-  --color-spotify-green-hover: var(--spotify-green-hover);
-  --color-spotify-green-dark: var(--spotify-green-dark);
-  --color-spotify-subdued: var(--spotify-text-subdued);
-  --color-spotify-muted: var(--spotify-text-muted);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-* {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
-}
-
-html {
-  scroll-behavior: smooth;
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
 }
 
 body {
-  background: linear-gradient(180deg, #1a1a1a 0%, #121212 40%, #0d0d0d 100%);
-  background-attachment: fixed;
+  background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
-}
-
-/* Spotify gradient utilities */
-.bg-spotify-surface {
-  background: linear-gradient(180deg, #1a1a1a 0%, #121212 100%);
-}
-
-.bg-spotify-card-gradient {
-  background: linear-gradient(145deg, #303030 0%, #282828 40%, #1a1a1a 100%);
-}
-
-.bg-spotify-elevated-gradient {
-  background: linear-gradient(160deg, #222222 0%, #181818 60%, #121212 100%);
-}
-
-.bg-spotify-green-gradient {
-  background: linear-gradient(135deg, #1ed760 0%, #1db954 45%, #169c46 100%);
-}
-
-.bg-spotify-green-gradient:hover {
-  background: linear-gradient(135deg, #1fdf64 0%, #1ed760 45%, #1db954 100%);
-}
-
-.bg-spotify-icon-gradient {
-  background: linear-gradient(135deg, #1ed760 0%, #1db954 55%, #169c46 100%);
-}
-
-.bg-spotify-progress-gradient {
-  background: linear-gradient(90deg, #169c46 0%, #1db954 55%, #1ed760 100%);
-}
-
-.text-spotify-gradient {
-  background: linear-gradient(135deg, #1ed760 0%, #1db954 50%, #1aa34a 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-}
-
-.text-hit-colorful {
-  display: inline-block;
-  background-image: linear-gradient(
-    90deg,
-    #1ed760 0%,
-    #ffd93d 22%,
-    #ff6bcb 45%,
-    #6bcbff 68%,
-    #1ed760 100%
-  );
-  background-size: 250% auto;
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
-  animation: hit-shimmer 5s ease-in-out infinite;
-}
-
-@keyframes hit-shimmer {
-  0%,
-  100% {
-    background-position: 0% center;
-  }
-  50% {
-    background-position: 100% center;
-  }
-}
-
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-
-::selection {
-  background: rgba(29, 185, 84, 0.35);
-  color: white;
-}
-
-@keyframes particle-float {
-  0%,
-  100% {
-    transform: translateY(0);
-    opacity: 0.1;
-  }
-  50% {
-    transform: translateY(-30px);
-    opacity: 0.6;
-  }
-}
-
-.particle-float {
-  animation-name: particle-float;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-}
-
-@keyframes waveform-pulse {
-  0%,
-  100% {
-    transform: scaleY(0.45);
-    opacity: calc(var(--bar-opacity) * 0.5);
-  }
-  50% {
-    transform: scaleY(1);
-    opacity: var(--bar-opacity);
-  }
-}
-
-.waveform-bar {
-  height: var(--bar-height);
-  transform-origin: bottom center;
-  background: linear-gradient(
-    to top,
-    rgba(18, 18, 18, 0.6) 0%,
-    rgba(22, 156, 70, 0.2) 25%,
-    rgba(29, 185, 84, 0.5) 60%,
-    rgba(30, 215, 96, 0.85) 100%
-  );
-  animation-name: waveform-pulse;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-  will-change: transform, opacity;
+  font-family: Arial, Helvetica, sans-serif;
 }
