@@ -1,0 +1,7 @@
+# Exclude heavy ML binaries from the Vercel deployment bundle.
+# Deploy ml/server.py separately (Railway, Render, Fly.io, etc.).
+ml/artifacts/*.pkl
+ml/**/*.py
+!ml/artifacts/*.json
+dev.db
+*.tsbuildinfo

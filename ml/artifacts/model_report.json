@@ -1,0 +1,238 @@
+{
+  "generated_at": "2026-06-15T23:09:25.234655+00:00",
+  "model": "RandomForestClassifier (3-tier HitTier, production)",
+  "feature_config": "ml/feature_config.json",
+  "data_path": "src/data/data.csv",
+  "training_rows": 1177,
+  "training_scope": "full_dataset",
+  "target_column": "HitTier",
+  "tier_labels": [
+    "SHORT",
+    "MODERATE",
+    "SUSTAINED"
+  ],
+  "tier_to_hit": {
+    "1": [
+      "SHORT",
+      "1\u20132 weeks"
+    ],
+    "2": [
+      "MODERATE",
+      "3\u20134 weeks"
+    ],
+    "3": [
+      "SUSTAINED",
+      "5+ weeks"
+    ]
+  },
+  "feature_counts": {
+    "numeric": 8,
+    "binary": 12,
+    "categorical": 2,
+    "total": 22
+  },
+  "evaluation": {
+    "cv_folds": 5,
+    "random_state": 42,
+    "metrics": {
+      "accuracy": 0.5913,
+      "balanced_accuracy": 0.3542,
+      "macro_f1": 0.308
+    },
+    "confusion_matrix": {
+      "labels": [
+        "SHORT",
+        "MODERATE",
+        "SUSTAINED"
+      ],
+      "tier_ids": [
+        1,
+        2,
+        3
+      ],
+      "matrix": [
+        [
+          672,
+          12,
+          23
+        ],
+        [
+          246,
+          4,
+          14
+        ],
+        [
+          182,
+          4,
+          20
+        ]
+      ],
+      "description": "rows = actual, cols = predicted (out-of-fold predictions)"
+    },
+    "class_distribution": {
+      "SHORT": {
+        "tier_id": 1,
+        "count": 707,
+        "pct": 60.07
+      },
+      "MODERATE": {
+        "tier_id": 2,
+        "count": 264,
+        "pct": 22.43
+      },
+      "SUSTAINED": {
+        "tier_id": 3,
+        "count": 206,
+        "pct": 17.5
+      }
+    }
+  },
+  "top_20_feature_importances": [
+    {
+      "rank": 1,
+      "name": "song_structure",
+      "label": "Structure",
+      "importance": 0.112808,
+      "importance_pct": 11.28
+    },
+    {
+      "rank": 2,
+      "name": "length_sec",
+      "label": "Song Length",
+      "importance": 0.08759,
+      "importance_pct": 8.76
+    },
+    {
+      "rank": 3,
+      "name": "bpm",
+      "label": "BPM",
+      "importance": 0.087042,
+      "importance_pct": 8.7
+    },
+    {
+      "rank": 4,
+      "name": "energy",
+      "label": "Energy",
+      "importance": 0.084207,
+      "importance_pct": 8.42
+    },
+    {
+      "rank": 5,
+      "name": "danceability",
+      "label": "Danceability",
+      "importance": 0.082909,
+      "importance_pct": 8.29
+    },
+    {
+      "rank": 6,
+      "name": "acousticness",
+      "label": "Acousticness",
+      "importance": 0.082829,
+      "importance_pct": 8.28
+    },
+    {
+      "rank": 7,
+      "name": "happiness",
+      "label": "Happiness",
+      "importance": 0.081401,
+      "importance_pct": 8.14
+    },
+    {
+      "rank": 8,
+      "name": "intro_length_sec",
+      "label": "Intro Length",
+      "importance": 0.0792,
+      "importance_pct": 7.92
+    },
+    {
+      "rank": 9,
+      "name": "cdr_genre",
+      "label": "Genre",
+      "importance": 0.073598,
+      "importance_pct": 7.36
+    },
+    {
+      "rank": 10,
+      "name": "loudness_db",
+      "label": "Loudness",
+      "importance": 0.072442,
+      "importance_pct": 7.24
+    },
+    {
+      "rank": 11,
+      "name": "fade_out",
+      "label": "Fade Out",
+      "importance": 0.021228,
+      "importance_pct": 2.12
+    },
+    {
+      "rank": 12,
+      "name": "guitar_based",
+      "label": "Guitar Based",
+      "importance": 0.01998,
+      "importance_pct": 2.0
+    },
+    {
+      "rank": 13,
+      "name": "multiple_lead_vocalists",
+      "label": "Multi Vocalist",
+      "importance": 0.01772,
+      "importance_pct": 1.77
+    },
+    {
+      "rank": 14,
+      "name": "artist_is_only_songwriter",
+      "label": "Solo Songwriter",
+      "importance": 0.017223,
+      "importance_pct": 1.72
+    },
+    {
+      "rank": 15,
+      "name": "explicit",
+      "label": "Explicit",
+      "importance": 0.016935,
+      "importance_pct": 1.69
+    },
+    {
+      "rank": 16,
+      "name": "bass_based",
+      "label": "Bass Based",
+      "importance": 0.016118,
+      "importance_pct": 1.61
+    },
+    {
+      "rank": 17,
+      "name": "cover",
+      "label": "Cover",
+      "importance": 0.011823,
+      "importance_pct": 1.18
+    },
+    {
+      "rank": 18,
+      "name": "vocal_introduction",
+      "label": "Vocal Intro",
+      "importance": 0.011084,
+      "importance_pct": 1.11
+    },
+    {
+      "rank": 19,
+      "name": "sample",
+      "label": "Sample",
+      "importance": 0.009736,
+      "importance_pct": 0.97
+    },
+    {
+      "rank": 20,
+      "name": "vocally_based",
+      "label": "Vocally Based",
+      "importance": 0.00797,
+      "importance_pct": 0.8
+    }
+  ],
+  "artifacts": [
+    "model.pkl",
+    "preprocessing_pipeline.pkl",
+    "feature_schema.json",
+    "model_report.json"
+  ]
+}

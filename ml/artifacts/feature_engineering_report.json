@@ -1,0 +1,333 @@
+{
+  "model": "RandomForestClassifier (3-tier HitTier + feature engineering)",
+  "feature_config": "ml/feature_config.json",
+  "target_column": "HitTier",
+  "tier_labels": [
+    "SHORT",
+    "MODERATE",
+    "SUSTAINED"
+  ],
+  "tier_to_hit": {
+    "1": [
+      "SHORT",
+      "1\u20132 weeks"
+    ],
+    "2": [
+      "MODERATE",
+      "3\u20134 weeks"
+    ],
+    "3": [
+      "SUSTAINED",
+      "5+ weeks"
+    ]
+  },
+  "cv_folds": 5,
+  "random_state": 42,
+  "metrics": {
+    "accuracy": 0.5845,
+    "balanced_accuracy": 0.3378,
+    "macro_f1": 0.2793
+  },
+  "confusion_matrix": {
+    "labels": [
+      "SHORT",
+      "MODERATE",
+      "SUSTAINED"
+    ],
+    "tier_ids": [
+      1,
+      2,
+      3
+    ],
+    "matrix": [
+      [
+        676,
+        13,
+        18
+      ],
+      [
+        248,
+        1,
+        15
+      ],
+      [
+        189,
+        6,
+        11
+      ]
+    ],
+    "description": "rows = actual, cols = predicted (out-of-fold predictions)"
+  },
+  "class_distribution": {
+    "SHORT": {
+      "tier_id": 1,
+      "count": 707,
+      "pct": 60.07
+    },
+    "MODERATE": {
+      "tier_id": 2,
+      "count": 264,
+      "pct": 22.43
+    },
+    "SUSTAINED": {
+      "tier_id": 3,
+      "count": 206,
+      "pct": 17.5
+    }
+  },
+  "feature_counts": {
+    "numeric": 11,
+    "binary": 12,
+    "categorical": 2,
+    "total": 25
+  },
+  "engineered_features": {
+    "cdr_genre_top": true,
+    "energy_x_danceability": true,
+    "intro_ratio": true,
+    "front_person_age": true
+  },
+  "top_20_feature_importances": [
+    {
+      "rank": 1,
+      "name": "song_structure",
+      "label": "Structure",
+      "importance": 0.085885,
+      "importance_pct": 8.59
+    },
+    {
+      "rank": 2,
+      "name": "length_sec",
+      "label": "Song Length",
+      "importance": 0.072386,
+      "importance_pct": 7.24
+    },
+    {
+      "rank": 3,
+      "name": "intro_ratio",
+      "label": "Intro Ratio",
+      "importance": 0.071953,
+      "importance_pct": 7.2
+    },
+    {
+      "rank": 4,
+      "name": "energy_x_danceability",
+      "label": "Energy x Danceability",
+      "importance": 0.071544,
+      "importance_pct": 7.15
+    },
+    {
+      "rank": 5,
+      "name": "bpm",
+      "label": "BPM",
+      "importance": 0.070556,
+      "importance_pct": 7.06
+    },
+    {
+      "rank": 6,
+      "name": "acousticness",
+      "label": "Acousticness",
+      "importance": 0.06925,
+      "importance_pct": 6.93
+    },
+    {
+      "rank": 7,
+      "name": "energy",
+      "label": "Energy",
+      "importance": 0.067506,
+      "importance_pct": 6.75
+    },
+    {
+      "rank": 8,
+      "name": "happiness",
+      "label": "Happiness",
+      "importance": 0.065333,
+      "importance_pct": 6.53
+    },
+    {
+      "rank": 9,
+      "name": "danceability",
+      "label": "Danceability",
+      "importance": 0.065161,
+      "importance_pct": 6.52
+    },
+    {
+      "rank": 10,
+      "name": "front_person_age",
+      "label": "Front Person Age",
+      "importance": 0.061035,
+      "importance_pct": 6.1
+    },
+    {
+      "rank": 11,
+      "name": "intro_length_sec",
+      "label": "Intro Length",
+      "importance": 0.059889,
+      "importance_pct": 5.99
+    },
+    {
+      "rank": 12,
+      "name": "cdr_genre_top",
+      "label": "Top Genre",
+      "importance": 0.059357,
+      "importance_pct": 5.94
+    },
+    {
+      "rank": 13,
+      "name": "loudness_db",
+      "label": "Loudness",
+      "importance": 0.054844,
+      "importance_pct": 5.48
+    },
+    {
+      "rank": 14,
+      "name": "fade_out",
+      "label": "Fade Out",
+      "importance": 0.016999,
+      "importance_pct": 1.7
+    },
+    {
+      "rank": 15,
+      "name": "guitar_based",
+      "label": "Guitar Based",
+      "importance": 0.016709,
+      "importance_pct": 1.67
+    },
+    {
+      "rank": 16,
+      "name": "multiple_lead_vocalists",
+      "label": "Multi Vocalist",
+      "importance": 0.0148,
+      "importance_pct": 1.48
+    },
+    {
+      "rank": 17,
+      "name": "explicit",
+      "label": "Explicit",
+      "importance": 0.013744,
+      "importance_pct": 1.37
+    },
+    {
+      "rank": 18,
+      "name": "artist_is_only_songwriter",
+      "label": "Solo Songwriter",
+      "importance": 0.013466,
+      "importance_pct": 1.35
+    },
+    {
+      "rank": 19,
+      "name": "bass_based",
+      "label": "Bass Based",
+      "importance": 0.01183,
+      "importance_pct": 1.18
+    },
+    {
+      "rank": 20,
+      "name": "vocal_introduction",
+      "label": "Vocal Intro",
+      "importance": 0.009562,
+      "importance_pct": 0.96
+    }
+  ],
+  "comparison": {
+    "baseline_reference": "ml/artifacts/three_tier_report.json",
+    "baseline": {
+      "accuracy": 0.5913,
+      "balanced_accuracy": 0.3542,
+      "macro_f1": 0.308
+    },
+    "full_engineered": {
+      "accuracy": 0.5845,
+      "balanced_accuracy": 0.3378,
+      "macro_f1": 0.2793
+    },
+    "delta_full_vs_baseline": {
+      "accuracy": -0.0068,
+      "balanced_accuracy": -0.0164,
+      "macro_f1": -0.0287
+    },
+    "improved_full_vs_baseline": {
+      "accuracy": false,
+      "balanced_accuracy": false,
+      "macro_f1": false
+    },
+    "per_feature_ablation": [
+      {
+        "feature": "cdr_genre_top",
+        "description": "First genre token before ';' (replaces cdr_genre)",
+        "metrics": {
+          "accuracy": 0.5905,
+          "balanced_accuracy": 0.3515,
+          "macro_f1": 0.3033
+        },
+        "delta_vs_baseline": {
+          "accuracy": -0.0008,
+          "balanced_accuracy": -0.0027,
+          "macro_f1": -0.0047
+        },
+        "improved": {
+          "accuracy": false,
+          "balanced_accuracy": false,
+          "macro_f1": false
+        }
+      },
+      {
+        "feature": "energy_x_danceability",
+        "description": "energy * danceability",
+        "metrics": {
+          "accuracy": 0.5888,
+          "balanced_accuracy": 0.3502,
+          "macro_f1": 0.3032
+        },
+        "delta_vs_baseline": {
+          "accuracy": -0.0025,
+          "balanced_accuracy": -0.004,
+          "macro_f1": -0.0048
+        },
+        "improved": {
+          "accuracy": false,
+          "balanced_accuracy": false,
+          "macro_f1": false
+        }
+      },
+      {
+        "feature": "intro_ratio",
+        "description": "intro_length_sec / length_sec",
+        "metrics": {
+          "accuracy": 0.5905,
+          "balanced_accuracy": 0.3495,
+          "macro_f1": 0.2989
+        },
+        "delta_vs_baseline": {
+          "accuracy": -0.0008,
+          "balanced_accuracy": -0.0047,
+          "macro_f1": -0.0091
+        },
+        "improved": {
+          "accuracy": false,
+          "balanced_accuracy": false,
+          "macro_f1": false
+        }
+      },
+      {
+        "feature": "front_person_age",
+        "description": "Front person age (included when missing < 30%)",
+        "metrics": {
+          "accuracy": 0.5896,
+          "balanced_accuracy": 0.3476,
+          "macro_f1": 0.2967
+        },
+        "delta_vs_baseline": {
+          "accuracy": -0.0017,
+          "balanced_accuracy": -0.0066,
+          "macro_f1": -0.0113
+        },
+        "improved": {
+          "accuracy": false,
+          "balanced_accuracy": false,
+          "macro_f1": false
+        }
+      }
+    ]
+  }
+}

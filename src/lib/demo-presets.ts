@@ -1,0 +1,142 @@
+import type { SongInput } from "@/lib/prediction";
+
+export interface DemoPreset {
+  id: string;
+  name: string;
+  description: string;
+  gradient: string;
+  input: SongInput;
+}
+
+export const demoPresets: DemoPreset[] = [
+  {
+    id: "pop-anthem",
+    name: "Pop Anthem",
+    description:
+      "Radio-ready chorus with pre-chorus lift, bright energy, and a tight intro.",
+    gradient: "from-pink-900/90 via-rose-800/70 to-spotify-green/30",
+    input: {
+      cdrGenre: "Pop",
+      songStructure: "C3",
+      bpm: 120,
+      energy: 75,
+      danceability: 68,
+      happiness: 72,
+      loudnessDb: -6,
+      acousticness: 15,
+      lengthSec: 210,
+      introLengthSec: 8,
+      explicit: false,
+      guitarBased: false,
+      bassBased: true,
+      vocallyBased: false,
+      rapVerseNonRap: false,
+      vocalIntroduction: false,
+      fadeOut: false,
+    },
+  },
+  {
+    id: "dance-hit",
+    name: "Dance Hit",
+    description:
+      "Club-floor pulse with high danceability, low acousticness, and a short hook intro.",
+    gradient: "from-violet-900/90 via-purple-800/70 to-spotify-green/30",
+    input: {
+      cdrGenre: "Electronic/Dance",
+      songStructure: "C4",
+      bpm: 128,
+      energy: 88,
+      danceability: 92,
+      happiness: 78,
+      loudnessDb: -5,
+      acousticness: 5,
+      lengthSec: 195,
+      introLengthSec: 4,
+      explicit: false,
+      guitarBased: false,
+      bassBased: true,
+      vocallyBased: false,
+      rapVerseNonRap: false,
+      vocalIntroduction: false,
+      fadeOut: true,
+    },
+  },
+  {
+    id: "acoustic-ballad",
+    name: "Acoustic Ballad",
+    description:
+      "Intimate folk-pop with guitar-led arrangement, slow tempo, and a vocal intro.",
+    gradient: "from-amber-900/90 via-orange-900/60 to-spotify-green/20",
+    input: {
+      cdrGenre: "Pop;Folk/Country",
+      songStructure: "A2",
+      bpm: 72,
+      energy: 28,
+      danceability: 38,
+      happiness: 35,
+      loudnessDb: -12,
+      acousticness: 82,
+      lengthSec: 240,
+      introLengthSec: 12,
+      explicit: false,
+      guitarBased: true,
+      bassBased: false,
+      vocallyBased: true,
+      rapVerseNonRap: false,
+      vocalIntroduction: true,
+      fadeOut: true,
+    },
+  },
+  {
+    id: "hip-hop-smash",
+    name: "Hip-Hop Smash",
+    description:
+      "Hard-hitting beats, explicit lyrics, and a complex multi-section layout.",
+    gradient: "from-zinc-900/95 via-neutral-800/80 to-spotify-green/25",
+    input: {
+      cdrGenre: "Hip Hop",
+      songStructure: "F",
+      bpm: 95,
+      energy: 72,
+      danceability: 78,
+      happiness: 55,
+      loudnessDb: -7,
+      acousticness: 8,
+      lengthSec: 230,
+      introLengthSec: 2,
+      explicit: true,
+      guitarBased: false,
+      bassBased: true,
+      vocallyBased: false,
+      rapVerseNonRap: false,
+      vocalIntroduction: false,
+      fadeOut: false,
+    },
+  },
+  {
+    id: "summer-hit",
+    name: "Summer Hit",
+    description:
+      "Feel-good pop-dance crossover with sunny happiness and festival-ready energy.",
+    gradient: "from-sky-900/90 via-cyan-800/70 to-spotify-green/35",
+    input: {
+      cdrGenre: "Pop;Electronic/Dance",
+      songStructure: "C5",
+      bpm: 110,
+      energy: 80,
+      danceability: 85,
+      happiness: 88,
+      loudnessDb: -6,
+      acousticness: 10,
+      lengthSec: 205,
+      introLengthSec: 6,
+      explicit: false,
+      guitarBased: false,
+      bassBased: true,
+      vocallyBased: false,
+      rapVerseNonRap: false,
+      vocalIntroduction: false,
+      fadeOut: false,
+    },
+  },
+];

@@ -1,36 +1,96 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# HitLab
 
-## Getting Started
+AI-powered Billboard hit prediction studio built with Next.js, MongoDB Atlas, and a Python ML service.
 
-First, run the development server:
+## Local development
 
 ```bash
+npm install
+cp .env.example .env
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Set `DATABASE_URL` in `.env` (MongoDB Atlas, database name `/hitlab`, URL-encode password special chars).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Predictions use a local Python worker by default. Requires Python 3.11+ and `pip install -r ml/requirements.txt`.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Optional ML HTTP mode:
 
-## Learn More
+```bash
+cd ml && python server.py
+# set ML_SERVICE_URL=http://localhost:8000 in .env
+```
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Deploy on Railway (recommended: one service)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Deploy **everything** (Next.js + ML) in a **single Railway service** from the repo root.
 
-## Deploy on Vercel
+### Why your `ml/` deploy failed
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Railway only saw `artifacts/` because key files were **not pushed to GitHub** yet (`server.py`, `Dockerfile`, `railway.toml`). Railpack then could not detect a build. The unified root Dockerfile avoids that.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### Steps
+
+1. **Commit and push all code** (especially `ml/server.py`, `Dockerfile`, `scripts/railway-start.sh`, `railway.toml`):
+
+```bash
+git add .
+git commit -m "Add Railway unified deployment"
+git push
+```
+
+2. **Railway** → New Project → Deploy from GitHub repo.
+
+3. **Do not set a root directory** — leave it as `/` (repo root).
+
+4. Railway uses [`railway.toml`](railway.toml) + [`Dockerfile`](Dockerfile), which:
+   - Builds Next.js
+   - Installs Python + ML dependencies
+   - Starts ML on internal port `8000`
+   - Starts Next.js on Railway's `PORT`
+
+5. **Environment variables** on the web service:
+
+| Variable | Required | Notes |
+|---|---|---|
+| `DATABASE_URL` | Yes | MongoDB Atlas connection string |
+| `AUTH_SECRET` | Yes | `openssl rand -base64 32` |
+
+`ML_SERVICE_URL` is set automatically inside the container (`http://127.0.0.1:8000`). You do not need to set it for the one-service deploy.
+
+6. **MongoDB Atlas** → Network Access → allow `0.0.0.0/0` so Railway can connect.
+
+7. First deploy may take several minutes (Next.js build + ~25MB model load).
+
+### Verify
+
+- Open your Railway public URL
+- Sign up / log in
+- Run a prediction
+
+---
+
+## Deploy on Railway (optional: two services)
+
+If you prefer splitting web and ML:
+
+| Service | Root directory | Config |
+|---|---|---|
+| Web | `/` | [`railway.toml`](railway.toml) with Dockerfile **or** Nixpacks |
+| ML | `/ml` | [`ml/railway.toml`](ml/railway.toml) + [`ml/Dockerfile`](ml/Dockerfile) |
+
+**Important:** All `ml/*.py`, `ml/Dockerfile`, and `ml/railway.toml` must be committed and pushed. Set **`ML_SERVICE_URL`** on the web service to the ML service's public URL.
+
+For the ML service alone, Railway must use the **Dockerfile** builder (configured in `ml/railway.toml`), not Railpack auto-detect.
+
+---
+
+## Scripts
+
+| Command | Description |
+|---|---|
+| `npm run dev` | Local dev server |
+| `npm run build` | Production build |
+| `npm start` | Production server |
