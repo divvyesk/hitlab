@@ -1,96 +1,193 @@
-# HitLab
+# HitLab AI
 
-AI-powered Billboard hit prediction studio built with Next.js, MongoDB Atlas, and a Python ML service.
+**Predict the next Billboard hit.**
 
-## Local development
+[Live demo →](https://hitlab.up.railway.app)
+
+HitLab is a full-stack AI studio that estimates how long a song might stay at **#1 on the Billboard Hot 100**, based on real chart data and audio features from 1,000+ historical hits. Configure a track’s sonic DNA, run a prediction, explore similar chart-toppers, and experiment with what-if scenarios — all in a Spotify-inspired interface.
+
+---
+
+## Features
+
+### Prediction Studio
+- **22-feature input form** — genre, song structure, BPM, energy, danceability, happiness, loudness, acousticness, length, and more
+- **Contextual help** — clickable explanations for technical fields (song structure codes, Spotify metrics, genre taxonomy)
+- **Demo presets** — one-click profiles (Pop Anthem, Dance Hit, Acoustic Ballad, Hip-Hop Smash, Summer Hit) that auto-run predictions
+- **Tier forecast** — `SHORT` (1–2 weeks), `MODERATE` (3–4 weeks), or `SUSTAINED` (5+ weeks) with probability breakdown
+- **Hit probability meter** — weighted score across tier probabilities
+- **Song DNA radar** — compare your track against median Billboard #1 averages
+
+### Why This Prediction?
+- Top feature importances from the trained Random Forest model, showing which characteristics drove the result
+
+### Similar Billboard Hits
+- k-nearest-neighbor search over the production feature space
+- Surfaces the 5 closest historical #1 songs with similarity scores
+
+### What-If Studio
+- Live sliders for energy and intro length
+- Instant re-prediction to see how small changes shift chart potential
+
+### Chart Intelligence
+- Analytics dashboard exploring genre dominance, tempo trends, and the energy–popularity sweet spot across decades of Billboard data
+
+### Auth
+- Email/password sign-up and login
+- JWT session cookies
+- User accounts stored in MongoDB Atlas
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Frontend | Next.js 16, React 19, TypeScript, Tailwind CSS 4, Framer Motion, Recharts |
+| UI | Radix UI, Lucide icons |
+| Backend | Next.js App Router API routes, Zod validation |
+| Auth | bcryptjs, jose (JWT) |
+| Database | MongoDB Atlas |
+| ML | Python 3, scikit-learn, pandas, joblib |
+| Model | Random Forest classifier (3-tier HitTier) + Nearest Neighbors similarity |
+| Deployment | Railway (Docker — Next.js + ML in one service) |
+
+---
+
+## How It Works
+
+```
+User input → Next.js API → Python ML service → Tier + probabilities
+                ↓
+         MongoDB Atlas (users)
+                ↓
+         Similar songs (k-NN over 1,177 Billboard #1 hits)
+```
+
+The model is trained on the **Billboard #1 hits dataset** (~1,177 songs) using leakage-free features selected from a curated data dictionary. Chart longevity (`weeks at #1`) is bucketed into three tiers and predicted from sonic and structural characteristics — not from post-release chart data.
+
+Tier assignment uses **expected chart weeks** derived from class probabilities, calibrated against historical tier means for more balanced predictions than raw argmax.
+
+---
+
+## Getting Started
+
+### Prerequisites
+- Node.js 20+
+- Python 3.11+ (for local ML worker)
+- MongoDB Atlas database (or local MongoDB)
+
+### Install & run
 
 ```bash
+git clone https://github.com/YOUR_USERNAME/hitlab.git
+cd hitlab
 npm install
 cp .env.example .env
+```
+
+Set in `.env`:
+
+| Variable | Description |
+|---|---|
+| `DATABASE_URL` | MongoDB connection string (include database name, e.g. `/hitlab`) |
+| `AUTH_SECRET` | Random secret for JWT sessions |
+
+For local predictions, install Python dependencies:
+
+```bash
+pip install -r ml/requirements.txt
 npm run dev
 ```
 
-Set `DATABASE_URL` in `.env` (MongoDB Atlas, database name `/hitlab`, URL-encode password special chars).
+Open [http://localhost:3000](http://localhost:3000).
 
-Predictions use a local Python worker by default. Requires Python 3.11+ and `pip install -r ml/requirements.txt`.
-
-Optional ML HTTP mode:
+Optional — run the ML HTTP service separately:
 
 ```bash
 cd ml && python server.py
-# set ML_SERVICE_URL=http://localhost:8000 in .env
+# then set ML_SERVICE_URL=http://localhost:8000 in .env
 ```
 
----
-
-## Deploy on Railway (recommended: one service)
-
-Deploy **everything** (Next.js + ML) in a **single Railway service** from the repo root.
-
-### Why your `ml/` deploy failed
-
-Railway only saw `artifacts/` because key files were **not pushed to GitHub** yet (`server.py`, `Dockerfile`, `railway.toml`). Railpack then could not detect a build. The unified root Dockerfile avoids that.
-
-### Steps
-
-1. **Commit and push all code** (especially `ml/server.py`, `Dockerfile`, `scripts/railway-start.sh`, `railway.toml`):
-
-```bash
-git add .
-git commit -m "Add Railway unified deployment"
-git push
-```
-
-2. **Railway** → New Project → Deploy from GitHub repo.
-
-3. **Do not set a root directory** — leave it as `/` (repo root).
-
-4. Railway uses [`railway.toml`](railway.toml) + [`Dockerfile`](Dockerfile), which:
-   - Builds Next.js
-   - Installs Python + ML dependencies
-   - Starts ML on internal port `8000`
-   - Starts Next.js on Railway's `PORT`
-
-5. **Environment variables** on the web service:
-
-| Variable | Required | Notes |
-|---|---|---|
-| `DATABASE_URL` | Yes | MongoDB Atlas connection string |
-| `AUTH_SECRET` | Yes | `openssl rand -base64 32` |
-
-`ML_SERVICE_URL` is set automatically inside the container (`http://127.0.0.1:8000`). You do not need to set it for the one-service deploy.
-
-6. **MongoDB Atlas** → Network Access → allow `0.0.0.0/0` so Railway can connect.
-
-7. First deploy may take several minutes (Next.js build + ~25MB model load).
-
-### Verify
-
-- Open your Railway public URL
-- Sign up / log in
-- Run a prediction
-
----
-
-## Deploy on Railway (optional: two services)
-
-If you prefer splitting web and ML:
-
-| Service | Root directory | Config |
-|---|---|---|
-| Web | `/` | [`railway.toml`](railway.toml) with Dockerfile **or** Nixpacks |
-| ML | `/ml` | [`ml/railway.toml`](ml/railway.toml) + [`ml/Dockerfile`](ml/Dockerfile) |
-
-**Important:** All `ml/*.py`, `ml/Dockerfile`, and `ml/railway.toml` must be committed and pushed. Set **`ML_SERVICE_URL`** on the web service to the ML service's public URL.
-
-For the ML service alone, Railway must use the **Dockerfile** builder (configured in `ml/railway.toml`), not Railpack auto-detect.
-
----
-
-## Scripts
+### Scripts
 
 | Command | Description |
 |---|---|
-| `npm run dev` | Local dev server |
+| `npm run dev` | Start development server |
 | `npm run build` | Production build |
-| `npm start` | Production server |
+| `npm start` | Start production server |
+| `npm run lint` | Run ESLint |
+
+---
+
+## ML Pipeline
+
+Training data lives in `src/data/billboard_hits.csv`. The pipeline:
+
+1. **`ml/build_dataset.py`** — normalize columns, export UI defaults
+2. **`ml/train.py`** — train Random Forest with 5-fold stratified CV, save artifacts
+3. **`ml/build_similarity.py`** — build k-NN similarity index
+4. **`ml/inference.py`** — production prediction with expected-weeks tier logic
+
+Retrain:
+
+```bash
+pip install -r ml/requirements.txt
+python ml/train.py
+python ml/build_similarity.py
+```
+
+Artifacts are written to `ml/artifacts/`.
+
+---
+
+## Deployment
+
+HitLab is deployed on **[Railway](https://railway.app)** as a single Docker service (Next.js + Python ML):
+
+- **Dockerfile** at repo root builds the app and bundles the ML service
+- **`scripts/railway-start.sh`** starts ML internally, then Next.js
+- **MongoDB Atlas** handles persistence (external to Railway)
+
+Required environment variables:
+
+| Variable | Required |
+|---|---|
+| `DATABASE_URL` | Yes |
+| `AUTH_SECRET` | Yes |
+
+See [`railway.toml`](railway.toml) and [`Dockerfile`](Dockerfile) for build configuration.
+
+**Live site:** [https://hitlab.up.railway.app](https://hitlab.up.railway.app)
+
+---
+
+## Project Structure
+
+```
+hitlab/
+├── src/
+│   ├── app/              # Pages & API routes
+│   ├── components/       # UI (studio, auth, analytics, landing)
+│   └── lib/              # Prediction, auth, ML client, helpers
+├── ml/
+│   ├── artifacts/        # Trained model, preprocessor, similarity index
+│   ├── inference.py      # Prediction logic
+│   ├── server.py         # ML HTTP service
+│   └── train.py          # Model training
+├── src/data/             # Billboard dataset & data dictionary
+├── Dockerfile            # Unified Railway deployment
+└── scripts/              # Railway startup script
+```
+
+---
+
+## Data
+
+Predictions are grounded in the **Billboard Hot 100 #1 hits** dataset with expert-assigned genres (CDR taxonomy), Spotify audio features, and hand-coded song structure labels. See `src/data/data_dictionary.csv` for field definitions.
+
+---
+
+## Acknowledgments
+
+Built with chart data and feature definitions from the Billboard hits research dataset. Genre labels follow the CDR (Chris Dalla Riva) taxonomy used in the source material.
