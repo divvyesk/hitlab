@@ -1,9 +1,10 @@
 # HitLab AI
 
 **Predict the next Billboard hit.**
-
 [Live demo →](https://hitlab.up.railway.app)
 
+<img width="1440" height="714" alt="image" src="https://github.com/user-attachments/assets/4fb91a51-75fa-4722-853d-59ee60117f2d" />
+<br/><br/>
 HitLab is a full-stack AI studio that estimates how long a song might stay at **#1 on the Billboard Hot 100**, based on real chart data and audio features from 1,000+ historical hits. Configure a track’s sonic DNA, run a prediction, explore similar chart-toppers, and experiment with what-if scenarios — all in a Spotify-inspired interface.
 
 ---
@@ -184,7 +185,7 @@ hitlab/
 
 ## Data
 
-Predictions are grounded in the **Billboard Hot 100 #1 hits** dataset with expert-assigned genres (CDR taxonomy), Spotify audio features, and hand-coded song structure labels. See `src/data/data_dictionary.csv` for field definitions.
+Predictions are grounded in the [**Billboard Hot 100 #1 hits dataset**](https://docs.google.com/spreadsheets/d/1j1AUgtMnjpFTz54UdXgCKZ1i4bNxFjf01ImJ-BqBEt0/edit?usp=sharing) with expert-assigned genres (CDR taxonomy), Spotify audio features, and hand-coded song structure labels. See `src/data/data_dictionary.csv` for field definitions.
 
 ---
 
